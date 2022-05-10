@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.matheussilvadev.model.Telefone;
 import com.matheussilvadev.model.Usuario;
 import com.matheussilvadev.repository.UsuarioRepository;
 
@@ -54,6 +55,10 @@ public class IndexController {
 	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
+		
+		for(int pos = 0; pos < usuario.getTelefones().size(); pos++) {
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
