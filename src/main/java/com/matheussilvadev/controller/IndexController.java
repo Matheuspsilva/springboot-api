@@ -1,12 +1,12 @@
 package com.matheussilvadev.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.matheussilvadev.model.Telefone;
 import com.matheussilvadev.model.Usuario;
 import com.matheussilvadev.repository.UsuarioRepository;
 
@@ -44,7 +43,6 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
 	}
 	
-
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> listarUsuarios() {
 		
@@ -84,7 +82,5 @@ public class IndexController {
 
 		return new ResponseEntity<String>("Usuário " + id + " deletado com sucesso", HttpStatus.OK);
 	}
-	
-	
 
 }
