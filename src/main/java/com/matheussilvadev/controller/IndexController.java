@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matheussilvadev.model.Usuario;
+import com.matheussilvadev.model.UsuarioDTO;
 import com.matheussilvadev.repository.UsuarioRepository;
 
 @RestController
@@ -40,11 +41,11 @@ public class IndexController {
 	}
 	
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> usuario(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<UsuarioDTO> usuario(@PathVariable(value = "id") Long id) {
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
-		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
+		return new ResponseEntity<UsuarioDTO>(new UsuarioDTO(usuario.get()), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/", produces = "application/json")

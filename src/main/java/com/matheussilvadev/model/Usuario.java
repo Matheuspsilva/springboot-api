@@ -45,6 +45,8 @@ public class Usuario implements UserDetails {
 	
 	private String nome;
 	
+	private String cpf;
+	
 	private String token;
 	
 	@OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -78,6 +80,14 @@ public class Usuario implements UserDetails {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public String getCpf() {
+		return cpf;
 	}
 	
 	public void setToken(String token) {
