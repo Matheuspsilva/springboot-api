@@ -2,6 +2,7 @@ package com.matheussilvadev.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,6 +29,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.disable().authorizeRequests().antMatchers("/").permitAll()//Ativando permissão à página inicial do sistema
 			.antMatchers("/index").permitAll() //Ativando permissão à página index do sistema
+			.antMatchers(HttpMethod.OPTIONS, "/*").permitAll()
 			.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")	//URL de Logout - Redireciona após usuário deslogar do sistema
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))	//Mapeia URL de Logout e invalida o usuário
 			.and().addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class) //Filtra as requisições de login para autenticação
