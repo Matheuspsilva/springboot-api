@@ -15,6 +15,7 @@ import com.matheussilvadev.ApplicationContextLoad;
 import com.matheussilvadev.model.Usuario;
 import com.matheussilvadev.repository.UsuarioRepository;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -61,26 +62,35 @@ public class JWTTokenAutenticacaoService {
 		//Pega o token enviado no cabeçalho Http
 		String token = request.getHeader(HEADER_STRING);
 		
-		if(token != null) {
-			
-			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
-			
-			//Faz a validação do token do usuário na requisição
-			String user = Jwts.parser().setSigningKey(SECRET) //Bearer luJygj93kasasd ...
-					.parseClaimsJws(tokenLimpo)//luJygj93kasasd ...
-					.getBody().getSubject(); //Usuário
-			if(user != null) {
-				Usuario usuario = ApplicationContextLoad.getApplicationContext()
-						.getBean(UsuarioRepository.class).findUserByLogin(user);
+		try {
+			if(token != null) {
 				
-				//Retorna o usuário logado
-				if(usuario != null) {
-					if(tokenLimpo.equalsIgnoreCase(usuario.getToken())) {
-						return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(), usuario.getAuthorities());
+				String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+				
+				//Faz a validação do token do usuário na requisição
+				String user = Jwts.parser().setSigningKey(SECRET) //Bearer luJygj93kasasd ...
+						.parseClaimsJws(tokenLimpo)//luJygj93kasasd ...
+						.getBody().getSubject(); //Usuário
+				if(user != null) {
+					Usuario usuario = ApplicationContextLoad.getApplicationContext()
+							.getBean(UsuarioRepository.class).findUserByLogin(user);
+					
+					//Retorna o usuário logado
+					if(usuario != null) {
+						if(tokenLimpo.equalsIgnoreCase(usuario.getToken())) {
+							return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(), usuario.getAuthorities());
+						}
 					}
 				}
 			}
+		} catch (ExpiredJwtException e) {
+			try {
+				response.getOutputStream().println("Seu token está espirado, faça o login ou informe um novo token para autenticação");
+			} catch (IOException e1) {
+				
+			}
 		}
+
 		
 		liberacaoCors(response);
 		return null;//Não Autorizado
