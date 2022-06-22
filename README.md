@@ -1,7 +1,7 @@
 # Springboot API
 Repositório pessoal referente ao estudo do módulo 33 do Curso: Formação Java Web Full-Stack
 
-##Tecnologias
+## Tecnologias
 
 - Autenticação JWT
 - Spring Boot (MVC)
@@ -10,5 +10,5 @@ Repositório pessoal referente ao estudo do módulo 33 do Curso: Formação Java
 - PostgreSQL
 - Spring Security
 
-##Funcionalidades
+## Funcionalidades
 - CRUD Usuário
